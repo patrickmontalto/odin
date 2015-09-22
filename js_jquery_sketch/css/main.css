@@ -1,0 +1,62 @@
+body {
+    font-family: Sans-serif;
+}
+h3 {
+	font-size: 1.5em;
+}
+.header {
+	color: white;
+}
+button {
+    font-size: 14px;
+    height: 30px;
+    margin: 0 5px 0;
+}
+input {
+    font-size: 15px;
+    height: 25px;
+    width: 50px;
+}
+.params {
+    margin-bottom: 20px;
+}
+
+.controls {
+    border-radius: 25px;
+    border: 5px solid #278765;
+    background-color: #6CB89D;
+    margin: 10px auto 10px;
+    width: 50%;
+    min-width: 980px;
+
+}
+
+.sketchboard {
+	border: 5px solid #AE7218;
+	background-color: #EAB059;
+	border-radius: 25px;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	margin: 10px auto 10px;
+	min-width: 980px;
+	width: 80%;
+}
+
+.container {
+		position: relative;
+    margin: auto;
+    border: 3px solid black;
+    height: 960px;
+    width: 960px;
+    background-color: white;
+}
+.square {
+    float: left;
+    margin: 0px;
+    padding: 0px;
+}
+
+footer {
+	margin: 30px auto 10px;
+	width: 20%;
+}
