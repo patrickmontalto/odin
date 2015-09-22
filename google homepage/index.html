@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'>
+	<title>Google</title>
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+<body>
+	<div class="navbar">
+		<ul>
+			<li>Patrick</li>
+			<a href="http://www.gmail.com"><li>Gmail</li></a>
+			<a href="http://www.google.com/images"><li>Images</li></a>
+			<img src="img/profile.jpg" class="profile-photo">
+		</ul>
+	</div>
+	<div class="search">
+		<center>
+			<img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png" id="logo" height="92">
+			<div class="search_input">
+				<input class="search_field" type="text" onmouseover= "mouseover()" onmouseout ="mouseout()" onfocus="focusfn()" onblur="focusofffn()" >
+				<a href="http://www.google.com">
+					<img src="img/mic.png" id="voice-search">
+				</a>
+			</div>
+			<div>
+				<button class="input_buttons">Google Search</button>
+				<button class="input_buttons">I'm Feeling Lucky</button>
+			</div>
+		</center>
+	</div>
+
+	<script type="text/javascript">
+		function focusfn() {
+			document.getElementsByClassName('search_input')[0].style.border="1px solid #4d90fe"
+		}
+		function focusofffn() {
+			document.getElementsByClassName('search_input')[0].style.border="1px solid #d9d9d9"
+		}
+		function mouseover() {
+			document.getElementsByClassName('search_input')[0].style.border="1px solid #b9b9b9"
+		}
+		function mouseout() {
+			document.getElementsByClassName('search_input')[0].style.border="1px solid #d9d9d9"
+		}
+	</script>
+
+</body>
+</html>
