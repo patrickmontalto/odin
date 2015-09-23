@@ -20,7 +20,7 @@ function randomRGB() {
 }
 
 var drawGrid = function (size) {
-    var squareSize = (960 / size);
+    var squareSize = Math.floor(960 / size);
     for (var i = 1; i <= size; i++) {
         for (var j = 1; j <= size; j++) {
             $(".container").append(square);
