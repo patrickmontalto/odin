@@ -5,6 +5,7 @@
 		<%= link_to tag.name, tag_path(tag) %>
 	<% end %>
 </p><br />
+<p><%= image_tag @article.image.url unless !@article.image.exists?%></p>
 <p><%= @article.body %></p>
 <h3>Comments (<%= @article.comments.count %>)</h3>
 <%= render partial:'articles/comment', collection: @article.comments %>
