@@ -1,5 +1,17 @@
 def stock_picker(arr=[])
-  sell = arr[1..-1].max
-  buy = arr[0..arr.index(sell)].min
-  [buy, sell]
-end
+  difference = 0
+
+  for i in arr[0..-2]
+    for j in arr[arr.index(i)..-1]
+      diff = j - i
+      if diff > difference
+        difference = diff
+        buy = arr.index(i)
+        sell = arr.index(j)
+      end
+    end
+  end
+
+[buy, sell]
+
+end 
