@@ -2,12 +2,13 @@ def substrings(sentence, dictionary= [])
   strings = sentence.downcase.split
   result = {}
 
-  if dictionary.include?(str)
+  dictionary.each do |entry|
     count = 0
-    dictionary.each do |entry|
-      count += 1 if entry.downcase.include?(str)
+    strings.each do |word|
+      count += 1 if word.include?(entry)
     end
-    result[str] = count
+    result[entry] = count unless count == 0
   end
+  
   result
 end
