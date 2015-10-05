@@ -51,18 +51,9 @@ class TicTacToe
 
   # Place shape in array
   def place_shape(shape, location)
-    case location
-    when 1; @board[0][0] = shape
-    when 2; @board[0][1] = shape
-    when 3; @board[0][2] = shape
-    when 4; @board[1][0] = shape
-    when 5; @board[1][1] = shape
-    when 6; @board[1][2] = shape
-    when 7; @board[2][0] = shape
-    when 8; @board[2][1] = shape
-    when 9; @board[2][2] = shape
-    else; puts "error"
-    end
+    flat_board = @board.flatten
+    flat_board[location-1] = shape
+    @board = flat_board.each_slice(3).to_a
     puts "#{shape} placed at #{location}!"
     @used_loc << location
   end
