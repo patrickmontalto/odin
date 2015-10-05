@@ -17,11 +17,11 @@ class TicTacToe
       case @player_turn
       when 1
         play(@player1)
-        @game_over = winner_check(@player1)
+        @game_over = winner_check(@player1) unless check_board == true
         @player_turn = 2 # Switch to player 2 on next loop
       when 2
         play(@player2)
-        @game_over = winner_check(@player2)
+        @game_over = winner_check(@player2) unless check_board == true
         @player_turn = 1 # Switch to player 1 on next loop
       else
         "error"
