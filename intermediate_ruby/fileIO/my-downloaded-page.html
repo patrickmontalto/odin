@@ -1,0 +1,731 @@
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+ <title>File input/output | The Bastards Book of Ruby</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta property="og:site_name" content="The Bastards Book of Ruby"/>
+	<meta property="fb:admins" content="daonguyen74"/>
+	<meta name="author" content="Dan Nguyen" /> 
+	<meta name="type" content="book" /> 
+	<meta name="keywords" content="programming, Ruby, scripting, data visualization" />
+	<meta name="description" content="A Ruby programming tutorial for journalists, researchers, investigators, scientists, analysts and anyone else in the business of finding information and making it useful and visible. Programming experience not required, but provided.">
+	<meta name="author" content="Dan Nguyen">
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js" type="text/javascript"></script>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+
+
+	<link href="/assets/screen.css" media="screen" rel="stylesheet" type="text/css" />
+	<script src="/assets/all.js" type="text/javascript"></script>
+	
+ <meta content="authenticity_token" name="csrf-param" />
+<meta content="rbmj1dkkyJKg7q05hhmH9jJnclU3fSgtzoRIhA8y5lg=" name="csrf-token" />
+
+</head>
+
+	<body onload="prettyPrint()" class="chapters-show">	
+		
+		<div id="alert" class="banner">
+			<strong>12/03/2011:</strong> This book is in the <u>very preliminary stages</u>. None of the content is guaranteed to be thorough or accurate. See the <a href="/about">About Page</a>.
+		</div>
+	<header class="site container">
+	<div class="row">
+		
+		<div class="title"><a href="/">The Bastards Book of Ruby</a></div>
+		<div class="">	
+			<hgroup>
+					<div class="tagline">A Programming Primer for Counting and Other Unconventional Tasks
+					</div>
+			</hgroup>
+		</div>	
+
+		<div class="">
+			<nav class="site top">
+				<ul>
+	<li><a href="/">Home</a></li>
+	<li><a href="/about">About</a></li>
+	<li><a href="/toc">Contents</a></li>
+	<li><a href="/resources">Resources</a></li>
+	<li><a href="http://blog.bastardsbook.com">Blog</a></li>
+	
+	<li><a href="#contact">Contact</a></li>
+</ul>
+			</nav>
+		</div>
+
+	</div>
+</header>
+
+
+	
+	
+	<div class="site container clearfix">
+		<div id="banner-matter">
+			
+		</div>	
+
+		<div class="row">
+			<div class="content chapters show clearfix">
+				
+					<hgroup class="article">
+	<div class="section-name"><a href="/toc#fundamentals">The Fundamentals</a></div>
+	<h1>File input/output</h1>
+	<div class="tagline">Reading from and writing directly to files</div>
+	
+</hgroup>
+
+
+<article><div class="imgwrap lede">
+        <a href="http://www.flickr.com/photos/zokuga/6333446290/"><img src="/assets/images/lede/io.jpg" alt="io"></a>
+        <div class="caption"><a href="http://www.flickr.com/photos/zokuga/6333446290/">Hudson River, late afternoon. <span class="credit">Photo by Dan Nguyen</span></a></div>
+     </div>
+   <section id="overview">
+     <nav id="top-chapter-outline" class="chapter-outline"><a name="chapter-outline"></a>
+     <h4>Chapter outline</h4>
+     <ul class="headings">
+<li class="h2"><a href="#h-2-1">Creating a file and writing to it</a></li>
+<li class="h2"><a href="#h-2-2">Reading from a file</a></li>
+<li class="h2"><a href="#h-2-3">Closing files</a></li>
+<li class="h2"><a href="#h-2-4">File existence and properties</a></li>
+</ul>
+<div class="inter">     <div class="prev">
+   		<strong>Previous Chapter:</strong>	
+   		<a href="/chapters/enumerables">Enumerables</a>
+   	</div>	
+    
+   	<div class="next">
+   	<strong>Next Chapter:</strong> 
+ 		<a href="/chapters/conclusion">Reviewing Tweet Fetching</a>
+   	</div>
+   	</div>
+   	
+</nav><p>
+         In this chapter, you will learn how to <strong>read</strong> from and <strong>write</strong> to files. In most real-world applications, you'll be working with datasets that are too large to include in a program in a predefined string or collection. 
+      </p>
+      <p>But you'll find that a lot of the operations on files are similar to what we've been using when downloading files from the web.</p>
+      
+      </section><section><h2>Creating a file and writing to it<a name="h-2-1"></a>
+</h2>
+   <p>
+      The <tt>File</tt> class supplies the basic methods to manipulate files. The following script opens a new textfile in "write" mode and then writes <tt>"Hello file!"</tt> to it:
+      </p>
+      <pre><code class="prettyprint">
+fname = "sample.txt"
+somefile = File.open(fname, "w")
+somefile.puts "Hello file!"
+somefile.close
+         </code></pre>
+
+         <p>In the file directory from which you run this code, a <strong>sample.txt</strong> file should now appear, with the words <tt>"Hello file!"</tt> in it. Some notes:</p>
+      
+      <ol>
+<li>I deliberately made this example more wordy than it needs to be to emphasize this: the first line sets <tt>fname</tt> to <em>just a <strong>string</strong> that represents the <strong>filename</strong></em>. Again, <tt>fname</tt> is <strong>just the filename</strong>, not the actual file itself. This also works:
+<pre><code class="prettyprint">somefile = File.open("sample.txt", "w")
+somefile.puts "Hello file!"
+somefile.close   </code></pre>            
+              </li>
+         <li>The next line invokes the <tt>File</tt> class method <tt>open</tt>, which requires us to pass it two arguments: 1) the <strong>filename</strong>, represented by a <tt>String</tt>, and 2) <strong>the read/write mode</strong>. As you might guess, <tt>"w"</tt> stands for <strong>write</strong>.
+            <p><strong>Warning:</strong> Using <tt>"w"</tt> mode on an existing file will <em>erase the contents of that file</em>. If you want to <em>append</em> to an existing file, use <tt>"a"</tt> as the second argument.</p>
+</li>
+         <li>
+            The <tt>File</tt> class has its own <tt>puts</tt> method. But this one <strong>prints to the file</strong> instead of to the screen. You can also use <tt>write</tt>, which does not include a newline character at the end of the string.
+         </li>
+         <li>
+            The <tt>close</tt> method finishes the writing process and prevents any further data operations on the file (though you can reopen it again).
+         </li>
+      </ol>
+<h6>
+<tt>File.open</tt> vs <tt>open</tt>
+</h6>
+      <p>If you remember back to the <a data-href="intro_tweet_fetch" class="book ruby">tweet-fetching introduction</a>, we executed programs that wrote the contents of Wikipedia to a file on our hard disk:</p>
+<pre><code class="prettyprint">
+require "open-uri"
+
+remote_base_url = "http://en.wikipedia.org/wiki"
+remote_page_name = "Ada_Lovelace"
+remote_full_url = remote_base_url + "/" + remote_page_name
+
+<span class="hilite">remote_data = open(remote_full_url).read
+my_local_file = open("my-downloaded-page.html", "w")</span> 
+
+my_local_file.write(remote_data)
+my_local_file.close
+</code></pre>
+      
+<p>Notice how we didn't have to invoke the use of the <tt>File</tt> class. I purposefully omitted it then because I wanted to reduce the number of unfamiliar words and conventions in the introduction. Like <tt>puts</tt>, <tt>open</tt> is handled by the <tt>Kernel</tt> class. In this lesson, I've explicitly invoked it as a method of the <tt>File</tt> class just to make it more obvious that we're dealing with a local file rather than an input stream from a webpage.</p>      
+
+<p>So the code snippet above could be written thus:</p>
+<pre><code class="prettyprint">remote_data = open(remote_full_url).read
+<span class="hilite">my_local_file = File.open("my-downloaded-page.html", "w")</span> </code></pre>      
+
+<h6>Block notation</h6>
+<p>
+Instead of assigning a file handle to a variable, like so:      
+</p>      
+
+<pre><code class="prettyprint">somefile = File.open("sample.txt", "w")
+somefile.puts "Hello file!"
+somefile.close</code></pre>
+
+<p>You can use the block convention with <tt>File.open</tt>:</p>
+<pre><code class="prettyprint">
+File.open("sample.txt", "w"){ |somefile| somefile.puts "Hello file!"}</code></pre>      
+      
+<p>The file handle is automatically closed at the end of the block, so no need to call the <tt>close</tt> method. This is handy in cases when you only need to do all read or write to a file all in one go.</p>      
+
+      
+      <div class="exercise">
+<h5>Exercise: Copy Wikipedia's front page to a file using block notation</h5>
+         <p>
+            Using the RestClient gem we learned about in the <a class="book chapter" data-href="methods-and-gems" href="/chapters/methods-and-gems">Methods URL-fetching chapter</a>, write a script that accesses <a href="http://en.wikipedia.org/">http://en.wikipedia.org/</a> and copies it to <tt>wiki-page.html</tt> on your hard drive. http://ruby.bastardsbook.com/files/fundamentals/hamlet.txt.
+         </p>
+      
+         <div class="solution">
+<h6>Solution</h6>
+            <pre><code class="prettyprint">
+require 'rubygems'
+require 'rest-client'
+
+wiki_url = "http://en.wikipedia.org/"
+wiki_local_filename = "wiki-page.html"
+
+File.open(wiki_local_filename, "w") do |file|
+   file.write(RestClient.get(wiki_url))
+end
+</code></pre>
+         </div>
+      </div>
+      
+      
+   </section><div class="return-to row"><a href="#chapter-outline">Return to chapter outline</a></div>
+<section><h2>Reading from a file<a name="h-2-2"></a>
+</h2>
+      <p>Reading a file uses the same <tt>File.open</tt> method as before. However, the second argument is an <tt>"r"</tt> instead of <tt>"w"</tt>.
+      </p>
+      <p>After the file is opened, you can use a variety of methods to read its content. The most obviously-named method is <tt>read</tt>, which grabs all the file's contents:</p>
+      
+         <pre><code class="prettyprint">
+file = File.open("sample.txt", "r")
+contents = file.read
+puts contents   #=&gt; Lorem ipsum etc.
+
+contents = file.read
+puts contents   #=&gt; ""
+      </code></pre>
+      
+
+<p>
+   Every <tt>read</tt> operation begins where the last <tt>read</tt> operation ended. In the case where we've read the entire file (by not passing in a number), the second <tt>read</tt> call has nothing left to read.
+</p>
+
+<p>Here's an example of <tt>read</tt> using the block format</p>
+<pre><code class="prettyprint">contents = File.open("sample.txt", "r"){ |file| file.read }
+puts contents
+#=&gt;   Lorem ipsum etc.   </code></pre>      
+
+
+<section><h3>Using <tt>readline</tt> and <tt>readlines</tt><a name="h-3-1"></a>
+</h3>
+<p>
+   When dealing with delimited files, such as comma-delimited text files, it's more convenient to read the file line by line. The <tt>readlines</tt> method can draw in all the content and automatically parse it as an array, splitting the file contents by the line breaks.
+</p>
+
+<pre><code class="prettyprint">
+File.open("sample.txt").readlines.each do |line|
+   puts line
+end
+</code></pre>
+
+
+<p>The method <tt>readline</tt> on the other hand, reads a singular line. Again, each read operation moves the file handle forward in the file. If you keep calling <tt>readline</tt> until you hit the end of the file and then call it again, you'll get an <a href="http://www.ruby-doc.org/core/classes/EOFError.html" title="Class: EOFError [ruby-doc.org]">"end of file" error</a>.
+   
+   </p>
+   <p>The <tt>File</tt> class (more specifically, the <a href="http://www.ruby-doc.org/core/classes/IO.html" title="Class: IO [ruby-doc.org]">IO class</a> that File inherits from) contains the <tt><a href="http://www.ruby-doc.org/core/classes/IO.html#M000936" title="Class: IO [ruby-doc.org]">eof?</a></tt> method, which returns <tt>true</tt> if there is no more data in the file to read.</p>
+   
+   <p>The readline method is often used in conjunction with <tt>while</tt> or <tt>unless</tt>:</p>
+   <pre><code class="prettyprint">
+file = File.open("sample.txt", 'r')
+while !file.eof?
+   line = file.readline
+   puts line
+end
+</code></pre>   
+   
+   <p>The <tt>readline</tt> method seems to require more upkeep than <tt>readlines</tt>. So why use it when you plan on reading an entire file?</p> <p>Because the latter loads the entire file at once into memory. For most files under a few dozen megabytes, that's probably manageable on your home computer. But this is not good practice if the program is running on a computer that is serving multiple users, especially if the file is massive.</p>
+   <p>The <tt>readline</tt> method may require a couple more lines of code, but it's more efficient in most scenarios when extracting something from each line; you aren't operating on the entire file contents at once, and you don't need to store the entirety of each line either.</p>
+   
+   <div class="exercise">
+<h5>Exercise: Using <tt>readlines</tt>
+</h5>
+<p>For this exercise, we will use <tt>OpenURI</tt>'s version of <tt>open</tt>, which gives us a read-only interface for accessing files online:</p>   
+<pre><code class="prettyprint">require 'open-uri'
+url = "http://ruby.bastardsbook.com/files/fundamentals/hamlet.txt"
+puts open(url).readline
+#=&gt; THE TRAGEDY OF HAMLET, PRINCE OF DENMARK 
+</code></pre>
+
+<p>Write a program that:</p>
+<ul>
+<li>Reads hamlet.txt <a href="http://ruby.bastardsbook.com/files/fundamentals/hamlet.txt" title="">from the given URL</a>
+</li>
+   <li>Saves it to a local file on your hard drive named <tt>"hamlet.txt"</tt>
+</li>
+   <li>Re-opens that local version of <tt>hamlet.txt</tt> and prints out every 42nd line to the screen</li>
+</ul>
+<div class="solution">
+<h6>Solution</h6>
+   <p>Use <tt>readlines</tt> and the <tt>each_with_index</tt> method that we used in the <a class="book chapter" data-href="enumerables" href="/chapters/enumerables">enumerables</a> chapter:</p>
+         
+      <pre><code class="prettyprint">
+require 'open-uri'         
+url = "http://ruby.bastardsbook.com/files/fundamentals/hamlet.txt"
+local_fname = "hamlet.txt"
+File.open(local_fname, "w"){|file| file.write(open(url).read)}
+
+File.open(local_fname, "r") do |file|
+   file.readlines.each_with_index do |line, idx|
+      puts line if idx % 42 == 41
+   end   
+end
+</code></pre>   
+         
+   </div>
+
+</div>
+
+<div class="exercise">
+<h5>Bonus Exercise: Print only Hamlet's lines</h5>
+<p>Now that <tt>hamlet.txt</tt> is on your hard drive, open it again but this time, print  <strong>only the lines by Hamlet</strong>.</p>   
+<p>If you open up the file, this is what it looks like (Hamlet's speech is <span class="hilite">highlighted in blue</span>):</p>
+<pre>
+  <span class="hilite">Ham. Do not believe it.</span>
+  Ros. Believe what?
+  <span class="hilite">Ham. That I can keep your counsel, and not mine own. Besides, to be
+    demanded of a sponge, what replication should be made by the son
+    of a king?</span>
+  Ros. Take you me for a sponge, my lord?
+  <span class="hilite">Ham. Ay, sir; that soaks up the King's countenance, his rewards,  
+    his authorities. But such officers do the King best service in
+    the end. He keeps them, like an ape, in the corner of his jaw;
+    first mouth'd, to be last Swallowed. When he needs what you have
+    glean'd, it is but squeezing you and, sponge, you shall be dry
+    again.</span>
+  Ros. I understand you not, my lord.
+  <span class="hilite">Ham. I am glad of it. A knavish speech sleeps in a foolish ear.   </span>
+</pre>
+
+<p>Note that each speaker's name is <strong>abbreviated to a few letters and a period</strong>. If the speaker's dialogue is longer than a single line, each successive line <strong>is indented four spaces</strong>.</p>
+<p>When someone new speaks, his/her name is <strong>indented two spaces in</strong>. Also, dialogue ends if there is a blank line.</p>
+
+<p><strong>Hint:</strong> I don't think it's possible to do this without a <a data-href="regexes" class="book chapter" href="/chapters/regexes">regular expression</a>. If you've been following this book linearly, then you may not know about regexes. They're a way to match patterns of text &ndash; such as, <em>any string that has more than five consecutive vowels</em> &ndash; rather than just literal characters. They're so useful that it's worth skipping ahead to them; <a data-href="regexes" class="book chapter" href="/chapters/regexes">you don't even need to program to use them</a>.</p>
+   <p>There are several regexes that would work, but this one will suffice:</p>
+<pre><code class="prettyprint">/^  [A-Z]/</code></pre>
+<p>Note that there are <strong>two spaces</strong> after the <strong>caret</strong> symbol <tt>^</tt>. The caret symbol specifies that we want a pattern that <strong>starts with the beginning of the line</strong>. So when this regex is passed into the <tt>match</tt> method, it will match any line that begins with two spaces and a capitalized letter. Sample usage:</p>   
+<pre><code class="prettyprint">
+lines = ["Hello world", "  How are you?", "*Fine*, thank you!.", "  OK then."]   
+lines.each do |line|
+   puts line if line.match(/^  [A-Z]/)
+end
+</code></pre>   
+
+<p>The output:</p>
+<pre class="output">
+  How are you?
+  OK then.</pre>
+   
+   
+   <p><strong>One more hint:</strong> <tt>match</tt> also has an annoying "feature" in which any string passed into it is converted into a regex pattern. So if you wanted to match, say, <tt>"Ham."</tt>, you would <strong>need to escape the period</strong>: <tt>"Ham\."</tt>. The period, in regex syntax, stands for <strong>any character</strong> (including an empty space). Thus:</p>
+<pre><code class="prettyprint">
+if "Honey Ham is my favorite".match("Ham.")
+   puts "Hey, I just wanted to match 'Ham.' Ham with a dot!"
+end
+#=&gt; Hey, I just wanted to match 'Ham.' Ham with a dot!
+</code></pre>
+   
+   
+   <p><strong>OK, last hint:</strong> you might find the string's <tt>strip</tt> method to be useful.</p>
+   
+   <div class="solution">
+<h6>Solution</h6>
+<p>This solution uses <tt>match</tt> <em>two times</em>:
+   </p>
+<ul>
+<li>To match <tt>"Ham\."</tt> &ndash; again, we need to escape the dot with a backslash since the string is converted to a regex by <tt>match</tt>
+</li>
+      <li>To match the regex <tt>/^  [A-Z]/</tt>
+</li>
+   </ul>
+<p>We're also interested in blank lines, which are any lines in which this is the case:</p>
+      <pre><code class="prettyprint">line.strip.empty? == true</code></pre>   
+      <p>Remember that <tt>strip</tt> removes all consecutive whitespace from the beginning and end of a line.</p>
+   
+<p> When a given line matches <tt>"Ham\."</tt>, we know that it must be the beginning of some Hamlet dialogue (to my knowledge, <em>Hamlet</em> does not contain any dialogue in which there is the one-word sentence, "Ham.")</p>
+      <p>Once that criteria has been met, than any line that matches the given regex <tt>/^  [A-Z]/</tt> must be a line in which someone new speaks. Or, if a line is blank, then also marks the end of Hamlet's speech. Therefore, we print every line from <tt>"Ham."</tt> on until the regex is matched <em>or</em> there is a blank line.</p>
+<pre><code class="prettyprint">
+is_hamlet_speaking = false
+File.open("hamlet.txt", "r") do |file|
+   file.readlines.each do |line|
+
+      if is_hamlet_speaking == true &amp;&amp; ( line.match(/^  [A-Z]/) || line.strip.empty? )
+        is_hamlet_speaking = false
+      end
+
+      is_hamlet_speaking = true if line.match("Ham\.")
+
+      puts line if is_hamlet_speaking == true
+   end   
+end
+</code></pre>      
+
+<p>This script <em>almost</em> gets it:</p>
+<pre class="output">
+Ham. Methinks it is like a weasel. 
+Ham. Or like a whale. 
+Ham. Then will I come to my mother by-and-by.- They fool me to the 
+  top of my bent.- I will come by-and-by. 
+Ham. 'By-and-by' is easily said.- Leave me, friends. 
+                                      <span class="wrong">[Exeunt all but Hamlet.]</span>   
+  'Tis now the very witching time of night, 
+  When churchyards yawn, and hell itself breathes out 
+  Contagion to this world. Now could I drink hot blood 
+</pre>
+
+<p>It also catches stage directions. We could eliminate that problem with a more specific regular expression, but this isn't bad for now. Hopefully, you're interested enough in <a data-href="regexes" class="book chapter" href="/chapters/regexes">regular expressions to check out their chapter</a>.</p>
+
+   </div>
+</div>   
+   
+</section></section><div class="return-to row"><a href="#chapter-outline">Return to chapter outline</a></div>
+<section><h2>Closing files<a name="h-2-3"></a>
+</h2>
+   <p>Just as you can open a file for reading or writing, you can close them too. What happens if you don't close a file? Nothing too bad, usually. But try writing a large amount of data to a file and have the program finish immediately after the <tt>write</tt> operation. When viewing the file immediately after with an external text editor, you might notice that it appears to be incomplete. Re-open it a few seconds later and it should contain what you expect.</p>
+   <p>File write operations don't happen instantaneously, as disk access is bound by at least the laws of physics. As data queues up to be written, <a href="http://en.wikipedia.org/wiki/Disk_buffer" title="Disk buffer - Wikipedia, the free encyclopedia">it sits in a memory buffer before actually being written to the hard disk</a>.</p>
+   <p>A file's <tt>close</tt> method forces a flush of the pending data. And while "flush" has the real-world meaning of getting rid of waste, in programming, a "flush" merely pushes the data-to-be-written to where you want it to be: a file on the hard drive.</p>
+   <p>Similar to flushing in the real-world, doing a "flush" is good practice in programming because it frees up memory for the rest of your program and (ideally) ensures that that file is available for other processes to access.</p>
+   <p>You can close a <tt>File</tt> by calling its <tt>close</tt> method:</p>
+   <pre><code class="prettyprint">
+datafile = File.open("sample.txt", "r")
+lines = datafile.readlines         
+datafile.close
+
+lines.each{ |line| puts line }         
+      </code></pre>
+   
+   <p>Or, you can pass a block into <tt>File.open</tt>. At the end of the block, the file is automatically closed:</p>
+      <pre><code class="prettyprint">
+lines = File.open("sample.txt", "r"){ |datafile| 
+   datafile.readlines
+}
+
+lines.each{|line| puts line}
+         </code></pre>   
+   
+</section><div class="return-to row"><a href="#chapter-outline">Return to chapter outline</a></div>
+<section><h2>File existence and properties<a name="h-2-4"></a>
+</h2>
+   <p>
+Besides reading and writing, the <tt><a href="http://www.ruby-doc.org/core/classes/File.html" title="Class: File [ruby-doc.org]">File</a></tt> and <tt><a href="http://www.ruby-doc.org/core/classes/Dir.html" title="Class: Dir [ruby-doc.org]">Dir</a></tt> classes have methods that can determine various properties of files, including <a href="http://www.ruby-doc.org/core/classes/File.html#M000057" title="Class: File [ruby-doc.org]">size</a>, its <a href="http://www.ruby-doc.org/core/classes/File.html#M000027" title="Class: File [ruby-doc.org]">directory</a>, and whether or not a file with a given name <a href="http://www.ruby-doc.org/core/classes/File.html#M000045" title="Class: File [ruby-doc.org]">exists</a>.
+   </p>
+
+   <section><h3>File.exists?<a name="h-3-2"></a>
+</h3>
+      <p>
+      This is a useful class method that checks whether a file or directory exists and returns <tt>true</tt>/<tt>false</tt>:
+      </p>
+<pre><code class="prettyprint">
+if File.exists?(filename)
+   puts "#{filename} exists"
+end
+   </code></pre>      
+<p>
+   I use it often to check whether a directory exists. If <tt>false</tt>, then I use the <tt>Dir.mkdir</tt> class method to create it:
+</p>
+<pre><code class="prettyprint">
+dirname = "data-files"
+Dir.mkdir(dirname) unless File.exists?dirname
+File.open("#{dirname}/new-file.txt", 'w'){|f| f.write('Hello world!')}      
+   </code></pre>
+
+      
+   </section><section><h3>The <tt>Dir</tt> class<a name="h-3-3"></a>
+</h3>
+      <p>
+         The <a href="http://www.ruby-doc.org/core/classes/Dir.html" title="Class: Dir [ruby-doc.org]">methods of the <tt>Dir</tt> class</a> are useful in conjunction with file operations.
+      </p>
+      <p>One of the most useful is <tt><a href="http://www.ruby-doc.org/core/classes/Dir.html#M000629" title="Class: Dir [ruby-doc.org]">Dir.glob</a></tt>, which takes in a directory name and/or a pattern with wildcards and returns an array of filenames:</p>
+   <pre><code class="prettyprint">
+# count the files in my Downloads directory:
+puts Dir.glob('Downloads/*').length   #=&gt; 382
+
+# count all files in my Downloads directory and in sub-directories
+puts Dir.glob('Downloads/**/*').length   #=&gt; 308858
+
+# list just PDF files, either with .pdf or .PDF extensions:
+puts Dir.glob('Downloads/*.{pdf,PDF}').join(",\n")
+
+#=&gt; Downloads/About Downloads.pdf,
+#=&gt; Downloads/blueprintcss-1-0-cheatsheet-4-2-gjms.pdf,
+#=&gt; Downloads/crafting-rails-applications_b3_0.pdf,
+#=&gt; Downloads/DOM166.pdf,
+#=&gt; Downloads/html5-cheat-sheet.pdf,
+#=&gt; Downloads/la_museum_free_days.pdf,
+#=&gt; Downloads/mbapm_rec-a.pdf,
+#=&gt; Downloads/mbapm_rec.pdf,
+#=&gt; Downloads/metaprogramming-ruby_p2_0.pdf,
+#=&gt; Downloads/mining-of-massive-datasets-book.pdf,
+#=&gt; Downloads/poignant-guide.pdf,
+#=&gt; Downloads/PrinterSchedule.pdf      
+      </code></pre>      
+         
+   </section><div class="takeaway">
+         <p>
+            <strong class="caution">A word of caution:</strong> The next few exercises involve using a loop and <tt>File</tt> operations. Remember how passing in the <tt>'w'</tt> parameter to <tt>File.open</tt> <strong>will empty an existing file?</strong></p>
+            
+   <p>          Be careful not to mistakenly pass in a <tt>'w'</tt> when you mean to <strong>read</strong> a group of files.
+         </p>
+   </div>
+   
+   <div class="exercise">
+<h5>Exercise: Find the top 10 largest files</h5>
+      <p>Using the <tt>Dir.glob</tt> and <tt>File.size</tt> methods, write a script that targets a directory &ndash; and all of its subdirectories &ndash; and prints out the names of the 10 files that take up the most disk space. </p>
+   
+   
+      
+      
+      <p>Point your script to any subdirectory. You will obviously get different results than I do.</p>
+      
+      <p><strong>Hint:</strong> This exercise does not require a call to <tt>File.open</tt></p>
+      <div class="solution">
+<h6>Solution</h6>
+<pre><code class="prettyprint">
+DIRNAME = "data-hold"
+Dir.glob("#{DIRNAME}/**/*.*").sort_by{|fname| File.size(fname)}.reverse[0..9].each do |fname|
+   puts "#{fname}\t#{File.size(fname)}"
+end</code></pre>
+
+<p>The output:</p>
+<pre class="output">data-hold/f-fi/explore.data.gov.html   749435
+data-hold/f-fi/apps.html   257722
+data-hold/f-fi/Los_Angeles_Galaxy.html   256100
+data-hold/f-fi/2009_Major_League_Soccer_season.html   249822
+data-hold/f-fi/2010_Colorado_Rapids_season.html   236699
+data-hold/f-fi/2010_Carolina_RailHawks_FC_season.html   225925
+data-hold/f-fi/2010_FIFA_U-20_Women's_World_Cup.html   222390
+data-hold/f-fi/2010_Vancouver_Whitecaps_FC_season.html   215580
+data-hold/f-fi/2004_Lamar_Hunt_U.S._Open_Cup.html   213927
+data-hold/Copyright and Other Rights Pertaining to U.S. Government Works  USA.gov_files/jquery-ui-1.8.12.custom.min.js   208528</pre>
+      </div>
+   </div>
+   
+   <div class="exercise">
+<h5>Exercise: Determine file makeup of directories, print to spreadsheet</h5>
+      <p>
+         Read the same directory and subdirectories as in the last exercise and determine:         
+      </p>
+      <ul>
+<li>A breakdown of file types (normalize the file extensions) by number of files</li>
+         <li>A breakdown of file types by bytes of disk space used.</li>
+      </ul>
+<p>Print the results of this analysis in a single text file, in the following spreadsheet-friendly tab-delimited format:</p>
+      <pre class="output">
+Filetype   Count   Bytes
+TXT   34   102300   
+JPG   8   20050010   
+GIF   5   428400
+      </pre>
+      
+      <div class="solution">
+<h6>Solution</h6>
+         <pre><code data-source="fundamentals/file-io/print-file-analysis-list.rb" class="prettyprint">DIRNAME = "data-hold"
+
+hash = Dir.glob("#{DIRNAME}/**/*.*").inject({}) do |hsh, fname|
+   ext = File.basename(fname).split('.')[-1].to_s.downcase
+   hsh[ext] ||= [0,0]
+   hsh[ext][0] += 1
+   hsh[ext][1] += File.size(fname)   
+   hsh
+end               
+File.open("file-analysis.txt", "w") do |f|
+   hash.each do |arr|
+     txt = arr.flatten.join("\t")
+      f.puts txt
+      puts txt
+   end
+end</code></pre>
+<pre class="output">html   346   24336017
+zip   176   1499377
+dat   149   1309082
+jpg   167   1554263
+doc   175   1368080
+php   1   58452
+css   3   38354
+gif   176   1555577
+rb   1   615
+txt   172   1374899
+json   1   7391
+png   2   8626
+js   14   490382
+gov_files   1   816</pre>         
+         
+      </div>
+      
+   </div>
+
+
+   <div class="exercise">
+<h5>Exercise: Read a text file and create a Google Chart</h5>
+      <p>Reading from the text files generated in the last exercise, use the <a href="http://code.google.com/apis/chart/image/" title="Google Chart Tools: Image Charts - Google Code">Google Image Chart API</a> (note that this is different from their <a href="http://code.google.com/apis/chart/" title="Google Chart Tools - Google Code">Javascript-based Chart API</a>) to draw piecharts based on the data and save those images somewhere on your hard drive.</p>
+      <p>Read up on the <a href="http://code.google.com/apis/chart/image/docs/gallery/pie_charts.html" title="Pie Charts - Google Chart Tools: Image Charts - Google Code">pie chart API here</a>. You can use <tt>open-uri</tt> to retrieve the file.</p>
+      
+      <p>Here's a sample image:</p>
+<pre>
+https://chart.googleapis.com/chart?cht=p&amp;chd=t:10,20,30,40&amp;chs=500x300&amp;chl=Jan|Feb|Mar|Apr
+</pre>      
+<div class="imgwrap">
+   <a href="https://chart.googleapis.com/chart?cht=p&amp;chd=t:10,20,30,40&amp;chs=500x300&amp;chl=Jan%7CFeb%7CMar%7CApr"><img src="https://chart.googleapis.com/chart?cht=p&amp;chd=t:10,20,30,40&amp;chs=500x300&amp;chl=Jan%7CFeb%7CMar%7CApr" alt=""></a>
+</div>
+
+      <div class="solution">
+<h6>Solution</h6>
+         <pre><code data-source="fundamentals/file-io/visualize-file-analysis.rb" class="prettyprint">require 'open-uri'
+
+BASE_URL = "https://chart.googleapis.com/chart?cht=p&amp;chs=500x300"
+rows = File.open("file-analysis.txt"){|f| f.readlines.map{|p| p.strip.split("\t")} }
+
+headers = rows[0]
+[1,2].each do |idx|
+   labels = []
+   values = []
+   rows[1..-1].each do |row|
+      labels &lt;&lt; row[0]
+      values &lt;&lt; row[idx]
+   end
+   
+   remote_google_img = URI.encode"#{BASE_URL}&amp;chl=#{labels.join('|')}&amp;chd=t:#{values.join(',')}"
+puts remote_google_img
+  File.open('file-pie-chart.png', 'w'){|f| 
+    f.write(open(remote_google_img))
+  }
+end
+</code></pre>
+
+<p>The two URLs that are output are the Google charts for <strong>number of files</strong> by filetype and <strong>total size of files</strong> by filetype, respectively:</p>
+<pre class="output">
+http://chart.googleapis.com/chart?cht=p&amp;chs=500x300&amp;chl=zip%7Cdat%7Cjpg%7Cdoc%7Cphp%7Ccss%7Cgif%7Crb%7Ctxt%7Cjson%7Cpng%7Cjs%7Cgov_files&amp;chd=t:176,149,167,175,1,3,176,1,172,1,2,14,1
+
+http://chart.googleapis.com/chart?cht=p&amp;chs=500x300&amp;chl=zip%7Cdat%7Cjpg%7Cdoc%7Cphp%7Ccss%7Cgif%7Crb%7Ctxt%7Cjson%7Cpng%7Cjs%7Cgov_files&amp;chd=t:1499377,1309082,1554263,1368080,58452,38354,1555577,615,1374899,7391,8626,490382,816   
+</pre>
+
+<div class="imgwrap">
+<img src="/assets/images/fundamentals/file-io/file-pie-chart-1.png" alt="Number of files by filetype"><div class="caption">Number of files by filetype</div>
+</div>
+
+<div class="imgwrap">
+<img src="/assets/images/fundamentals/file-io/file-pie-chart-2.png" alt="Total file size by filetype"><div class="caption">Total file size by filetype</div>
+   </div>
+      </div>
+      
+   </div>
+   
+   
+</section><section><p>Congrats, you're now done with what consists of the "<a href="/toc#fundamentals">fundamentals</a>"  for this book. This doesn't mean you're a full-fledged programmer by any means. But you're at a point to start doing something useful beyond what you've done in push-a-button programs.</p>
+</section></article>
+
+<div class="row">
+<nav class="chapter-outline">
+	
+		
+	<ul>
+
+	<li><div class="inter"><div class="next"><strong>Next Chapter</strong><br>	
+	<a href="/chapters/conclusion">Reviewing Tweet Fetching</a></div></div></li>
+
+	<li><div class="inter"><div class="next"><strong>Previous Chapter</strong><br>	
+	<a href="/chapters/enumerables">Enumerables</a></div></div></li>
+	
+	
+	<hr />
+	<li><a href="#chapter-outline">Chapter Outline</a></li>
+
+
+		<li><a href="/toc">Table of Contents</a></li>
+	
+	</ul>	
+</nav>	
+</div>
+
+
+			</div> <!-- end content -->
+			
+		</div> <!-- div class="row" -->
+	</div>	<!-- div class="site container" -->
+
+	
+
+<footer class="site">
+	<div class="container clearfix">
+		<div class="row">
+			<div class="sixcol">
+				<a name="contact"></a>
+				<h6>The Book</h6>
+				
+				<p><strong>Version:</strong> 0.1
+					</p>
+					<ul>
+	<li><a href="/">Home</a></li>
+	<li><a href="/about">About</a></li>
+	<li><a href="/toc">Contents</a></li>
+	<li><a href="/resources">Resources</a></li>
+	<li><a href="http://blog.bastardsbook.com">Blog</a></li>
+	
+</ul>
+				
+					<ul>
+						<li>Twitter:  <a href="http://twitter.com/bastardsbook">@bastardsbook</a></li>
+						<li><a href="http://www.facebook.com/pages/The-Bastards-Book/173374762734210">Facebook</a></li>							
+					</ul>
+				</div>
+			<div class="sixcol last">
+				<h6>Author Info</h6>
+				<p>Dan Nguyen is a journalist in New York</p>
+				<ul>
+					<li>Email: <a href="mailto:&#x64;&#x61;&#x6E;&#x40;&#x64;&#x61;&#x6E;&#x77;&#x69;&#x6E;&#x2E;&#x63;&#x6F;&#x6D;">dan@danwin.com</a></li>
+					<li>Blog: <a href="http://danwin.com" title="Dan Nguyen pronounced fast is danwin | The &#039;g&#039; is mostly silent">danwin.com</a></li>
+					<li>Twitter: <a href="http://twitter.com/dancow">@dancow</a></li>
+					<li>Tumblr: <a href="http://tumblr.eyeheartnewyork.com">eyeheartnewyork</a></li>
+					<li><a href="http://www.flickr.com/photos/zokuga/" title="Flickr: Dan Nguyen @ New York City's Photostream">Flickr</a></li>
+
+				</ul>
+			</div>
+		
+		</div>
+
+
+	</div>
+	
+	<div class="row"><div id="copyright">Copyright 2011	</div></div>
+
+</footer>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-24985223-1']);
+  _gaq.push(['_setDomainName', '.bastardsbook.com']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+</body>
+</html>

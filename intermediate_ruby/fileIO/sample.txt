@@ -1,0 +1,1 @@
+Hello file from the block!! This was automatically closed via block call
