@@ -1,0 +1,32 @@
+--- !ruby/object:Hangman
+word:
+- b
+- r
+- u
+- n
+- n
+- h
+- i
+- l
+- d
+- e
+game_over: false
+turns: 5
+guessed_letters:
+- r
+- n
+- e
+- o
+board:
+- _
+- r
+- _
+- n
+- n
+- _
+- _
+- _
+- _
+- e
+guess: save game
+message: That's wrong, partner. Try again.
