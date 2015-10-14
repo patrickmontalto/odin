@@ -1,0 +1,3 @@
+[submodule "ruby_intro/learn_ruby"]
+	path = ruby_intro/learn_ruby
+	ignore = dirty
