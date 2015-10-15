@@ -1,4 +1,5 @@
 require_relative '../tictactoe'
+require 'spec_helper'
 
 describe TicTacToe do
 	before :each do
@@ -35,9 +36,21 @@ describe TicTacToe do
 
 	describe "#play" do
 		it "rejects locations not from 1 to 9" do
+			@game.stub(:gets) do
+				@counter ||= 0
+	  		response = if @counter > 3 # an arbitrary threshold
+              		 	"10"
+            			 else
+             			 	"1"
+            			 end
+				@counter += 1
+  			response
+			end
+			expect(@game).to receive(:print_board)
+			@game.play(@game.player1)
 		end
 	end
-
+	
 	describe "#winner_check" do
 		context 'where O wins' do
 			it "recognizes a diagonal win" do
@@ -66,6 +79,17 @@ describe TicTacToe do
 				@game.instance_variable_set(:@board, [["X",2,3],["X",5,6],["X",8,9]])
 				expect(@game.winner_check(@game.player2)).to eql true
 			end
+		end
+	end
+
+	describe "#check_board" do
+		it "returns true when the board is full" do
+			@game.instance_variable_set(:@used_loc, [1,2,3,4,5,6,7,8,9])
+			expect(@game.check_board).to eql true
+		end
+		it "returns false when the board is not full" do
+			@game.instance_variable_set(:@used_loc, [1,2,3]) 
+			expect(@game.check_board).to eql false
 		end
 	end
 	
