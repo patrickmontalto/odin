@@ -3,12 +3,16 @@ require_relative 'player'
 class TicTacToe
   attr_reader :player1, :player2, :board, :used_loc
   def initialize(players)
-    @player1 = Player.new(players[0],"O")
-    @player2 = Player.new(players[1],"X")
-    @board = [[1,2,3],[4,5,6],[7,8,9]]
-    @used_loc = []
-    @game_over = false
-    @player_turn = 1
+    if players.is_a?(Array) && players.size == 2 && players[0].is_a?(String) && players[1].is_a?(String)
+      @player1 = Player.new(players[0],"O")
+      @player2 = Player.new(players[1],"X")
+      @board = [[1,2,3],[4,5,6],[7,8,9]]
+      @used_loc = []
+      @game_over = false
+      @player_turn = 1
+    else
+      raise "Expected array of 2 player name strings"
+    end
   end
 
   # Game will run until game_over is true
@@ -99,22 +103,3 @@ end
 
 
 
-# Playing the game
-
-print "Would you like to play Tic Tac Toe? (yes/no) "
-play = gets.chomp.downcase
-players = []
-
-if play == "yes"
-  puts "Great! You'll need two players"
-  puts "Who will be the first player? (O)" 
-  players << gets.chomp.capitalize
-  puts "Who will be the second player? (x)"
-  players << gets.chomp.capitalize
-  game = TicTacToe.new(players)
-  game.start_game
-elsif play == "no"
-  puts "Goodbye!"
-else 
-  puts "You have entered an invalid command."
-end

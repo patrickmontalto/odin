@@ -22,6 +22,12 @@ describe Book do
     end
   end
 
+  describe "#subtitle" do
+    it "receives and returns the subtitle" do
+      allow(@book).to receive(:subtitle).and_return("The subtitle")
+    end
+  end
+
   describe "#author" do
     it "returns the correct author" do
       expect(@book.author).to eql "Author"
