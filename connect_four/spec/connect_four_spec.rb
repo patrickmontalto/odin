@@ -37,5 +37,35 @@ describe "Connect Four" do
 			end
 		end
 
+		describe "#get_move" do
+
+			it "asks for appropriate players move" do
+				allow(game).to receive(:gets).and_return("A1")
+				expect(game).to receive(:puts).with("#{player1.name}'s, please enter a move (A1..G7):")
+				game.get_move(player1)
+			end
+
+			it "should receive input from player" do
+				allow(game).to receive(:gets).and_return("A1")
+				expect(game).to receive(:gets)
+				game.get_move(player1)
+			end
+
+			it "rejects illegal moves" do
+				game.stub(:gets) do
+					@counter ||= 0
+		  		response = if @counter > 3 # an arbitrary threshold
+	              		 	"A11"
+	            			 else
+	             			 	"A1"
+	            			 end
+					@counter += 1
+	  			response
+				end
+				game.get_move(player1)
+			end
+
+		end
+
 	end
 end

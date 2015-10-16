@@ -18,4 +18,10 @@ class Game
 
 	def winner
 	end
+
+	def get_move(player)
+		puts "#{player.name}'s, please enter a move (A1..G7):"
+		input = gets.chomp
+	end
+
 end
