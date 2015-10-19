@@ -143,7 +143,7 @@ describe "Connect Four" do
     end
 
     describe "#check_board" do
-      it "returns player when player wins" do
+      it "returns player when player wins vertically" do
         4.times { game.place_move("a", player1) }
         expect(game.check_board).to eql player1
       end
@@ -152,6 +152,13 @@ describe "Connect Four" do
         2.times { game.place_move("b",player2) }
         3.times { game.place_move("g",player1) }
         expect(game.check_board).to eql false
+      end
+      it "returns player when player wins horizontally" do
+        game.place_move("a",player1)
+        game.place_move("b",player1)
+        game.place_move("c",player1)
+        game.place_move("d",player1)
+        expect(game.check_board).to eql player1
       end
     end
 

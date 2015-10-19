@@ -48,29 +48,74 @@ class Game
   end
 
   def print_board
-    printed_board = [ [],[],[],[],[],[] ]
-    0.upto(5) do |row|
-      "a".upto("g") do |col|
-        if @board[col][(row-5).abs].nil?
-          printed_board[row] << " "
-        else
-          printed_board[row] << @board[col][(row-5).abs]
-        end
-      end
-    end
+    assemble_board
     col_separator, row_separator = " | ", "--+---+---+---+---+---+--"
     header = ("A".."G").to_a.join(col_separator)
-    row1 = printed_board[0].join(col_separator)
-    row2 = printed_board[1].join(col_separator)
-    row3 = printed_board[2].join(col_separator)
-    row4 = printed_board[3].join(col_separator)
-    row5 = printed_board[4].join(col_separator)
-    row6 = printed_board[5].join(col_separator)
+    row1 = @printed_board[0].join(col_separator)
+    row2 = @printed_board[1].join(col_separator)
+    row3 = @printed_board[2].join(col_separator)
+    row4 = @printed_board[3].join(col_separator)
+    row5 = @printed_board[4].join(col_separator)
+    row6 = @printed_board[5].join(col_separator)
     puts " #{header} \n #{row_separator} \n #{row1} \n #{row_separator} \n #{row2} \n #{row_separator} \n #{row3} \n #{row_separator} \n #{row4} \n #{row_separator} \n #{row5} \n #{row_separator} \n #{row6} \n #{row_separator}"  
   end
 
+  def assemble_board
+    @printed_board = [ [],[],[],[],[],[] ]
+    0.upto(5) do |row|
+      "a".upto("g") do |col|
+        if @board[col][(row-5).abs].nil?
+          @printed_board[row] << " "
+        else
+          @printed_board[row] << @board[col][(row-5).abs]
+        end
+      end
+    end
+  end
+
   def check_board
-    
+    found = false
+    # create array of rows
+    assemble_board
+
+    # create array of columns
+    columns = []
+    ("a").upto("g") do |key|
+      columns << @board[key]
+    end
+
+    # check across rows
+    @printed_board.each do |row|
+      if (row[0..3].all? { |x| x == row[0]}) || (row[1..4].all? { |x| x == row[1]}) || (row[2..5].all? {|x| x == row[2]})
+        found = row[3] unless row[3] == " "
+      elsif (row[3..6].all? {|x| x == row[3]}) || (row[4..7].all? {|x| x == row[4]})
+        found = row[5] unless row[5] == " "
+      end
+    end
+    # check across columns
+    if found == false
+      columns.each do |col|
+        if (col[0..3].all? { |x| x == col[0]}) || (col[1..4].all? { |x| x == col[1]}) || (col[2..5].all? {|x| x == col[2]})
+          found = col[3] unless col[3].nil?
+        elsif (col[3..6].all? {|x| x == col[3]})
+          found = col[5] unless col[5].nil?
+        end
+      end
+    end
+
+    # check diagonals
+    if found == false
+    end
+
+    # match player to found character
+    case found
+    when "\u25cf"
+      player1
+    when "\u25cb"
+      player2
+    else
+      found
+    end
   end
 
 end
