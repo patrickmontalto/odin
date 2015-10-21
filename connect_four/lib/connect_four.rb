@@ -121,14 +121,16 @@ class Game
     if found == false
       gboard = @printed_board.reverse
       0.upto(2) do |i|
+        # right diagonal
         0.upto(3) do |j|
-          if gboard[i][i] == gboard[i+1][i+1] && gboard[i][i] == gboard[i+2][i+2] && gboard[i][i] == gboard[i+3][i+3]
-            found = gboard[i][i] unless gboard[i][i] == " "
+          if gboard[i][j] == gboard[i+1][j+1] && gboard[i][j] == gboard[i+2][j+2] && gboard[i][j] == gboard[i+3][j+3]
+            found = gboard[i][j] unless gboard[i][j] == " "
           end
         end
+        # left diagonal
         6.downto(3) do |k|
-          if gboard[i][i] == gboard[i+1][i-1] && gboard[i][i] == gboard[i+2][i-2] && gboard[i][i] == gboard[i+3][i-3]
-            found = gboard[i][i] unless gboard[i][i] == " "
+          if gboard[i][k] == gboard[i+1][k-1] && gboard[i][k] == gboard[i+2][k-2] && gboard[i][k] == gboard[i+3][k-3]
+            found = gboard[i][k] unless gboard[i][k] == " "
           end
         end
       end
