@@ -56,7 +56,7 @@ describe "Connect Four" do
 		
 			it "congratulates player upon winning" do
 				expect(game).to receive(:puts).with("#{player1.name} has won!")
-				allow(game).to receive(:check_board).and_return(player1)
+        game.instance_variable_set(:@winner, player1)
 				game.start
 			end
 		end
@@ -65,7 +65,7 @@ describe "Connect Four" do
 
 			it "asks for appropriate players move" do
 				allow(game).to receive(:gets).and_return("A")
-				expect(game).to receive(:puts).with("#{player1.name}'s, please enter a column (A..G):")
+				expect(game).to receive(:puts).with("#{player1.name}'s turn, please enter a column (A..G):")
 				game.get_move(player1)
 			end
 
@@ -158,6 +158,19 @@ describe "Connect Four" do
         game.place_move("b",player1)
         game.place_move("c",player1)
         game.place_move("d",player1)
+        expect(game.check_board).to eql player1
+      end
+      it "returns player when player wins diagonally" do
+        game.place_move("b",player1)
+        game.place_move("c",player2)
+        game.place_move("c",player1)
+        game.place_move("d",player2)
+        game.place_move("d",player2)
+        game.place_move("d",player1)
+        game.place_move("e",player2)
+        game.place_move("e",player2)
+        game.place_move("e",player2)
+        game.place_move("e",player1)
         expect(game.check_board).to eql player1
       end
     end
