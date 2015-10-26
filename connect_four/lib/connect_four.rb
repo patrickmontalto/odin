@@ -12,6 +12,7 @@ class Game
       @used_moves = []
       @board = {"a" => [],"b" => [],"c" => [],"d" => [],"e" => [],"f" => [], "g" => []}
       @winner = false
+      @active_player = @player1
 		else
 			puts "Those are not players"
 		end
@@ -19,13 +20,26 @@ class Game
 
 	def start
 		while !@winner
+      case @active_player
+      when @player1
+        move = get_move(@player1)
+        place_move(move,@player1)
+        @active_player = @player2
+      when @player2
+        move = get_move(@player2)
+        place_move(move,@player2)
+        @active_player = @player1
+      else
+        raise "An active player is not currently assigned."
+      end
+      print_board
       @winner = check_board
 		end
 		puts "#{@winner.name} has won!"
 	end
 
 	def get_move(player)
-		puts "#{player.name}'s, please enter a column (A..G):"
+		puts "#{player.name}'s turn, please enter a column (A..G):"
 		input = gets.chomp.downcase
     if valid_move?(input)
       input
@@ -105,6 +119,21 @@ class Game
 
     # check diagonals
     if found == false
+      gboard = @printed_board.reverse
+      0.upto(2) do |i|
+        # right diagonal
+        0.upto(3) do |j|
+          if gboard[i][j] == gboard[i+1][j+1] && gboard[i][j] == gboard[i+2][j+2] && gboard[i][j] == gboard[i+3][j+3]
+            found = gboard[i][j] unless gboard[i][j] == " "
+          end
+        end
+        # left diagonal
+        6.downto(3) do |k|
+          if gboard[i][k] == gboard[i+1][k-1] && gboard[i][k] == gboard[i+2][k-2] && gboard[i][k] == gboard[i+3][k-3]
+            found = gboard[i][k] unless gboard[i][k] == " "
+          end
+        end
+      end
     end
 
     # match player to found character
