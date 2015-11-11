@@ -21,6 +21,6 @@ class User < ActiveRecord::Base
 	private
 
 		def assign_token
-			self.remember_token = create_token
+			self.remember_token = User.create_token
 		end
 end
