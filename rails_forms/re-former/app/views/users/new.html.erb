@@ -1,0 +1,50 @@
+<h1>Using HTML forms</h1>
+<form accept-charset="UTF-8" action="/users	" method ="post">
+<label for="user_username">Username:</label> 
+<input id="user_username"type="text" name="user[username]">
+<label for="user_email">Email:</label>
+<input id="user_email" type="text" name="user[email]">
+<label for="user_password">Password:</label>
+<input id="user_password" type="password" name="user[password]">
+<input type="submit" value="Create User">	
+<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">	
+</form>
+
+<h1>Using Form Tag</h1>
+
+<%= form_tag("/users", method: "post") do %>
+	<%= label_tag(:user_username, "username:") %>
+	<%= text_field_tag 'user[username]' %>
+	<%= label_tag(:user_email, "email:") %>
+	<%= text_field_tag 'user[email]' %>
+	<%= label_tag(:user_password, "password:") %>
+	<%= password_field_tag 'user[password]' %>
+	<%= submit_tag("Create user") %>
+<% end %>
+
+<h1>Using Rails Form For</h1>
+
+<% if @user.errors.any? %>
+	<div id="error_explanation">
+		<h2><%= pluralize(@user.errors.count, "error")%> has prohibited this from being created:</h2>
+		<ul>
+			<% @user.errors.full_messages.each do |msg| %>
+			<li><%= msg %></li>
+			<% end %>
+		</ul>
+	</div>
+<% end %>
+
+
+<%= form_for @user do |f| %>
+	<%= f.label :username%>:
+	<%= f.text_field :username %>
+
+	<%= f.label :email %>:
+	<%= f.text_field :email %>
+
+	<%= f.label :password %>:
+	<%= f.password_field :password %>
+
+	<%= f.submit %>
+<% end %>

@@ -1,0 +1,25 @@
+<div class="float-right">
+
+<h1>Members Only Posts</h1>
+
+<% @posts.each do |post| %>
+  <h4 class="float-left"><%=post.title %></h4>  
+
+  <% if signed_in? %>
+    <p class="float-right">
+      Posted by:
+      <%= post.user.name %>
+    </p>
+
+  <% end %>
+  <p>
+    	About:
+    	<%= post.about %>
+    </p>
+  
+  <p class="clear"><%= post.body %></p>
+<% end %>
+
+<% if signed_in? %>
+  <%= link_to "Create a Post", new_post_path %>
+<% end %>

@@ -1,0 +1,23 @@
+<h1>Edit User using Form For</h1>
+<% if @user.errors.any? %>
+	<div id="error_explanation">
+		<h2><%= pluralize(@user.errors.count, "error")%> has prohibited this from being edited:</h2>
+		<ul>
+			<% @user.errors.full_messages.each do |msg| %>
+			<li><%= msg %></li>
+			<% end %>
+		</ul>
+	</div>
+<% end %>
+<%= form_for @user do |f| %>
+	<%= f.label :username%>:
+	<%= f.text_field :username %>
+
+	<%= f.label :email %>:
+	<%= f.text_field :email %>
+
+	<%= f.label :password %>:
+	<%= f.password_field :password %>
+
+	<%= f.submit %>
+<% end %>
